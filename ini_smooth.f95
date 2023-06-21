@@ -1,4 +1,4 @@
-subroutine ini_smooth( co_dash,co_bar)
+subroutine ini_smooth(co_dash,co_bar)
    use comvar
    implicit none
 
@@ -73,7 +73,12 @@ subroutine ini_smooth( co_dash,co_bar)
              endif
                
                 
-                Pi_e                = 1.0 - g*z/(Cp*co_bar(5, i, j, k))
+             Pi_e                = 1.0 - g*z/(Cp*co_bar(5, i, j, k))
+
+             if (Pi_e .le. 0.0) then
+                write (*,*) Pi_e, x, y, z
+             endif
+             
                 
                 co_bar(1, i, j, k)  = P0/(R*co_bar(5, i, j, k) )*(Pi_e)**(1.0/(gamma-1.0)) ! Rho_bar
                 

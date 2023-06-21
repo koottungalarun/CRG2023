@@ -20,6 +20,7 @@ subroutine solveFVM(Con, Prim, Prim_Bar, res)
    ! set initial condition
    call init_cond(Prim, Prim_Bar)
    call fill_ghost(Prim)
+   call saveprim (0.0, Prim_Bar)
    
    ! converting primitive var to conservative var
    
@@ -52,10 +53,11 @@ subroutine solveFVM(Con, Prim, Prim_Bar, res)
       endif
 
       Con1(:,:,:,:) = Con(:,:,:,:)
-      !call saveprim(time, Con1)
+      call saveprim(time, Con1)
       call predictor(Con1, Prim_Bar, res)
       
       call fill_ghost(Con1)
+      stop
       !call saveprim(time, Con1)
      
       call matrix_solve(Con1, Con, Prim_Bar)

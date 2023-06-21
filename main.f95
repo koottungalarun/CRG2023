@@ -6,9 +6,9 @@ program main
 
    real, dimension(:), allocatable :: Con, Prim, Prim_Bar, res
 
-   Nx = 50
-   Ny = 50
-   Nz = 50
+   Nx = 20
+   Ny = 20
+   Nz = 20
    
   
    itmax = 50000
