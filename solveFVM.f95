@@ -34,7 +34,7 @@ subroutine solveFVM(Con, Prim, Prim_Bar, res)
    enddo
   
    call fill_ghost(Con)
-   call saveprim(0.0, Prim)
+!   call saveprim(0.0, Prim)
    
 
    time   = 0.0
