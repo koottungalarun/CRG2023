@@ -13,7 +13,7 @@ subroutine ini_smooth(co_dash,co_bar)
    !      co(5,:,:,:) = Pressure
    
       
-
+ ! new 
    final_time   = 10.0
    
    Theta_Bar    = 300.0
