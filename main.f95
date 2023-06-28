@@ -21,7 +21,7 @@ program main
    cfl         = 0.1
 
 
-   Pre_Bar     = 10E+05
+   
    SM  = 3*NZ-2
 
    ! file id for saving solution

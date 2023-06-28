@@ -13,7 +13,7 @@ subroutine numflux_x(ConL, ConR, PrimL, PrimR, lam, flux)
    call flux_x(ConL, PrimL, fluxL)
    call flux_x(ConR, PrimR, fluxR)
   
-   
+   !write(*,*) con_diff
    flux = 0.5*(fluxL + fluxR) - 0.5*lam*con_diff
    
  end subroutine numflux_x
@@ -27,11 +27,11 @@ subroutine numflux_x(ConL, ConR, PrimL, PrimR, lam, flux)
     real :: co(nvar), prim(nvar), flux(nvar), primb(nvar)
     real :: p_dash, c_bar
      
-    c_bar  = sqrt(gamma*Pre_bar/primb(1))  
+    c_bar  = sqrt(gamma*primb(2)/primb(1))  
     p_dash = c_bar**2/primb(5)*co(5)
-   
-    call cons2prims(co, prim, primb)
     
+    call cons2prims(co, prim, primb)
+    write(*,*) prim(1), primb(1)
     flux(1) = co(2)
     flux(2) = co(2)*prim(2) + p_dash
     flux(3) = co(2)*prim(3)

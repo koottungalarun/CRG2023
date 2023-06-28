@@ -28,7 +28,7 @@ subroutine numflux_y(ConL, ConR, PrimL, PrimR, lam, flux)
     real :: co(nvar), prim(nvar), primb(nvar),flux(nvar)
     real :: p_dash, c_bar
     
-    c_bar  = sqrt(gamma*Pre_bar/primb(1))  ! need to take car of p_bar
+    c_bar  = sqrt(gamma*primb(2)/primb(1))  
     p_dash = c_bar**2/primb(5)*co(5)
     
     call cons2prims(co, prim, primb)

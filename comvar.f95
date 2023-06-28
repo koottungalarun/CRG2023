@@ -7,7 +7,7 @@ module comvar
    integer :: itmax
    integer :: itsave
    real    :: cfl
-   real    :: final_time, Pre_bar
+   real    :: final_time
    
    real    :: Theta_bar, Cp, g, P0, R0, gamma=1.4, Theta_dashc
 
@@ -28,6 +28,6 @@ module comvar
 
 
    
-   integer :: nvar= 5
+   integer :: nvar= 5, bnvar =3
    
 end module comvar

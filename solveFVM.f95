@@ -20,8 +20,7 @@ subroutine solveFVM(Con, Prim, Prim_Bar, res)
    ! set initial condition
    call init_cond(Prim, Prim_Bar)
    call fill_ghost(Prim)
-   call saveprim (0.0, Prim_Bar)
-   
+   call fill_ghost(Prim_Bar)
    ! converting primitive var to conservative var
    
    do i = 1, Nx
@@ -35,9 +34,8 @@ subroutine solveFVM(Con, Prim, Prim_Bar, res)
    enddo
   
    call fill_ghost(Con)
-!   call saveprim(0.0, Prim)
+   call saveprim(0.0, Prim)
    
-
    time   = 0.0
    it     = 0
 
@@ -51,15 +49,17 @@ subroutine solveFVM(Con, Prim, Prim_Bar, res)
          dt = final_time - time
          tostop = .true.
       endif
-
+       
       Con1(:,:,:,:) = Con(:,:,:,:)
-      call saveprim(time, Con1)
-      call predictor(Con1, Prim_Bar, res)
-      
-      call fill_ghost(Con1)
-      stop
       !call saveprim(time, Con1)
+      
+      call predictor(Con1, Prim_Bar, res)
+      call saveprim(time, Con1)
+      call saveprim(time, Prim_Bar)
      
+      stop
+      call fill_ghost(Con1)
+      
       call matrix_solve(Con1, Con, Prim_Bar)
        
       call fill_ghost(Con)
@@ -149,7 +149,7 @@ subroutine update_Q3(Con1, Con,Prim_Bar)
     
     integer :: i, j, k
     
-    C_Bar(:, :,:) = sqrt(gamma*Pre_Bar/Prim_Bar(1,:,:,:))   
+    C_Bar(:, :,:) = sqrt(gamma*Prim_Bar(2,:,:,:)/Prim_Bar(1,:,:,:))   
     
     do i = 1, Nx
        do j = 1, Ny
