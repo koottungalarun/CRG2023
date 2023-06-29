@@ -28,10 +28,10 @@ subroutine numflux_x(ConL, ConR, PrimL, PrimR, lam, flux)
     real :: p_dash, c_bar
      
     c_bar  = sqrt(gamma*primb(2)/primb(1))  
-    p_dash = c_bar**2/primb(5)*co(5)
+    p_dash = (c_bar**2/primb(5))*co(5)
     
     call cons2prims(co, prim, primb)
-    write(*,*) prim(1), primb(1)
+   ! write(*,*) prim(1), primb(1)
     flux(1) = co(2)
     flux(2) = co(2)*prim(2) + p_dash
     flux(3) = co(2)*prim(3)

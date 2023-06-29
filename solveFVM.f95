@@ -54,13 +54,14 @@ subroutine solveFVM(Con, Prim, Prim_Bar, res)
       !call saveprim(time, Con1)
       
       call predictor(Con1, Prim_Bar, res)
-      call saveprim(time, Con1)
-      call saveprim(time, Prim_Bar)
+   !   call saveprim(time, Con1)
+   !   call saveprim(time, Prim_Bar)
      
-      stop
+   !   stop
       call fill_ghost(Con1)
       
       call matrix_solve(Con1, Con, Prim_Bar)
+      stop
        
       call fill_ghost(Con)
         
