@@ -19,7 +19,7 @@ subroutine matrix_solve( Con1, Con, Prim_Bar)
          B =0.0
         Sol =0.0
          call compute_B(B, Con1(:,i,j,:), Prim_Bar(5,i,j,:))
-         call local_mat(Ap, Ai, Ax, Con1(1, i,j,:),Prim_Bar(2,i,j,:))
+         call local_mat(Ap, Ai, Ax,Prim_Bar(:,i,j,:))
          call solution(Ap, Ai, Ax, B, Sol)  
          Con(1, i,j,1:Nz ) = Sol(1:Nz)
        enddo
@@ -50,15 +50,15 @@ subroutine compute_B(B, co0, co_prim)
 end subroutine compute_B     
 
 
-subroutine local_mat(Ap, Ai, Ax, co, Pre_bar)
+subroutine local_mat(Ap, Ai, Ax, con_bar)
     use comvar
     implicit none
     
     integer :: Ap(0:Nz)
     integer :: Ai(SM)
-    real    :: Ax(SM), Pre_bar(0:Nz+1)
+    real    :: Ax(SM), con_bar(nvar, 0:Nz+1)
     
-    real :: co(0:Nz+1)
+   
     !real :: po(nvar,0:Nz+1)
     real :: c_sq
     
@@ -75,7 +75,7 @@ subroutine local_mat(Ap, Ai, Ax, co, Pre_bar)
     Ai(1) = 0
     Ai(2) = 1
     
-    c_sq  = gamma*Pre_bar(1)/co(1)
+    c_sq  = gamma*con_bar(2, 1)/con_bar(1,1)
     Ax(1) = 1.0 + dt**2/dz + (dt/dz)**2* c_sq
     
     
@@ -91,7 +91,7 @@ subroutine local_mat(Ap, Ai, Ax, co, Pre_bar)
        Ai(jr) = MOD(i  +Nz, Nz)
        
        
-       c_sq   = gamma*Pre_bar(i)/co(i)
+       c_sq   = gamma*con_bar(2,i)/con_bar(1,i)
        
        
        Ax(jm) =  1.0 + 2.0* (dt/dz)**2* c_sq
@@ -109,7 +109,7 @@ subroutine local_mat(Ap, Ai, Ax, co, Pre_bar)
     Ai(3*Nz-3) = Nz - 1
     Ai(3*Nz-2) = Nz
     
-    c_sq   = gamma*Pre_bar(Nz)/co(Nz)
+    c_sq   = gamma*con_bar(2,Nz)/con_bar(1,Nz)
     
     Ax(3*Nz-3) = -dt**2/dz*(c_sq/dz + 1.0/2.0)
     Ax(3*Nz-2) = 1.0 + 2.0* (dt/dz)**2* c_sq
