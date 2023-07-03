@@ -34,7 +34,7 @@ subroutine solveFVM(Con, Prim, Prim_Bar, res)
    enddo
   
    call fill_ghost(Con)
-   call saveprim(0.0, Prim)
+   call saveprim(0.0, Con)
    
    time   = 0.0
    it     = 0
@@ -108,7 +108,7 @@ subroutine solveFVM(Con, Prim, Prim_Bar, res)
       write(*,'(I6,F10.2,5E12.4)')it,time,tmin,tmax,resid
 
       if(mod(it,itsave)==0 .or. it==itmax .or. tostop)then
-         call saveprim(time, Prim)
+         call saveprim(time, Con)
       endif
      !stop 
    enddo ! time iteration loop
@@ -157,7 +157,7 @@ subroutine update_Q3(Con1, Con,Prim_Bar)
            do k =1, Nz
               
                Con(4, i,j,k) = Con1(4, i, j, k) - dt/(2.0*dz*Prim_bar(5,i,j,k)) &
-                               *(C_Bar(i,j, k+1)*Con(5,i,j, k+1)- C_Bar(i,j, k-1)*Con(5,i,j, k-1)) &
+                               *(C_Bar(i,j, k+1)**2*Con(5,i,j, k+1)- C_Bar(i,j, k-1)**2*Con(5,i,j, k-1)) &
                                - dt/(2.0*dz)*(Con(1,i,j, k+1)- Con(1,i,j, k-1))
                                
            enddo

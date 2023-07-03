@@ -98,6 +98,8 @@ subroutine local_mat(Ap, Ai, Ax, con_bar)
        Ai(jm) = MOD(i-1+Nz, Nz)
        Ai(jr) = MOD(i  +Nz, Nz)
        
+       !write(*,*) Ai(jl),  Ai(jm), Ai(jr)
+       !write(*,*) Ap(i)
        
        c_sq   = gamma*con_bar(2,i)/con_bar(1,i)
        
@@ -113,9 +115,18 @@ subroutine local_mat(Ap, Ai, Ax, con_bar)
     enddo
     
     Ap(Nz) = Ap(Nz-1) + 2
+    Ai(SM-1) = Nz-2
+    Ai(SM) = Nz-1
     
-    Ai(3*Nz-3) = Nz - 1
-    Ai(3*Nz-2) = Nz
+    do i = 0, Nz
+        write(*,*) Ap(i)
+    enddo
+    
+    do i = 1, SM
+        write(*,*) Ai(i), i
+    enddo
+    
+    
     
     c_sq   = gamma*con_bar(2,Nz)/con_bar(1,Nz)
     
