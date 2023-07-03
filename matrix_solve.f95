@@ -12,14 +12,22 @@ subroutine matrix_solve( Con1, Con, Prim_Bar)
    real    :: Ax(SM)
    real    :: B(Nz), Sol(Nz)
    
+   real    :: Temp1(nvar,0:Nz+1), Temp2(0:Nz+1)
+   real    :: Temp3(nvar,0:Nz+1)
+   
    
    
    do i= 1, Nx
        do j = 1, Ny
          B =0.0
         Sol =0.0
-         call compute_B(B, Con1(:,i,j,:), Prim_Bar(5,i,j,:))
-         call local_mat(Ap, Ai, Ax,Prim_Bar(:,i,j,:))
+        
+         Temp1(:,:) = Con1(:,i,j,:)
+         Temp2(:)   = Prim_Bar(5,i,j,:)
+         Temp3(:,:) = Prim_Bar(:,i,j,:)
+         call compute_B(B, Temp1, Temp2)
+        ! call compute_B(B, Con1(:,i,j,:), Prim_Bar(5,i,j,:))
+         call local_mat(Ap, Ai, Ax,Temp3)
          call solution(Ap, Ai, Ax, B, Sol)  
          Con(1, i,j,1:Nz ) = Sol(1:Nz)
        enddo

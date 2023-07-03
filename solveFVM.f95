@@ -49,7 +49,7 @@ subroutine solveFVM(Con, Prim, Prim_Bar, res)
          dt = final_time - time
          tostop = .true.
       endif
-       
+      
       Con1(:,:,:,:) = Con(:,:,:,:)
       !call saveprim(time, Con1)
       
@@ -61,16 +61,16 @@ subroutine solveFVM(Con, Prim, Prim_Bar, res)
       call fill_ghost(Con1)
       
       call matrix_solve(Con1, Con, Prim_Bar)
-      stop
+      
        
       call fill_ghost(Con)
-        
+       
       call update_Rho(Con1, Con, Prim_Bar)
-      
+       
       call fill_ghost(Con)
       
       call update_Q3(Con1, Con,Prim_Bar)
-      
+       
       !call update_Q1(Con1, Con)
       Con(2,:, :, :) = Con1(2, :, :,:)
       !call update_Q2(Con1, Con)
@@ -107,10 +107,10 @@ subroutine solveFVM(Con, Prim, Prim_Bar, res)
       time = time + dt
       write(*,'(I6,F10.2,5E12.4)')it,time,tmin,tmax,resid
 
-     ! if(mod(it,itsave)==0 .or. it==itmax .or. tostop)then
-     !    call saveprim(time, Prim)
-     ! endif
-   stop
+      if(mod(it,itsave)==0 .or. it==itmax .or. tostop)then
+         call saveprim(time, Prim)
+      endif
+     !stop 
    enddo ! time iteration loop
 
 

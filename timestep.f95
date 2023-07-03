@@ -18,7 +18,7 @@ subroutine timestep(Con,Prim_Bar)
           enddo
        enddo
    enddo
-   if ( speed .le. 0.0) then
+   if ( speed .le. 10E-12) then
       dt =  10E-05
    else 
       dt = dx/speed
