@@ -63,7 +63,7 @@ subroutine local_mat(Ap, Ai, Ax, con_bar)
     implicit none
     
     integer :: Ap(0:Nz)
-    integer :: Ai(SM)
+    integer :: Ai(SM) !SM=3Nz-2
     real    :: Ax(SM), con_bar(nvar, 0:Nz+1)
     
    
@@ -85,11 +85,8 @@ subroutine local_mat(Ap, Ai, Ax, con_bar)
     
     c_sq  = gamma*con_bar(2, 1)/con_bar(1,1)
     Ax(1) = 1.0 + dt**2/dz + (dt/dz)**2* c_sq
-    
-    
     Ax(2) = -dt**2/dz*(c_sq/dz - 1.0/2.0)
-    
-    
+        
     do i = 2, Nz-1
        
        Ap(i) = Ap(i-1) + 3
@@ -105,8 +102,8 @@ subroutine local_mat(Ap, Ai, Ax, con_bar)
        
        
        Ax(jm) =  1.0 + 2.0* (dt/dz)**2* c_sq
-       Ax(jm) =  -dt**2/dz*(c_sq/dz - 1.0/2.0)
-       Ax(jl) =  -dt**2/dz*(c_sq/dz + 1.0/2.0)
+       Ax(jl) =  -dt**2/dz*(c_sq/dz - 0.5)
+       Ax(jr) =  -dt**2/dz*(c_sq/dz + 0.5)
        
        jl = jl + 3
        jm = jm + 3
@@ -126,12 +123,11 @@ subroutine local_mat(Ap, Ai, Ax, con_bar)
         write(*,*) Ai(i), i
     enddo
     
-    
-    
+        
     c_sq   = gamma*con_bar(2,Nz)/con_bar(1,Nz)
     
-    Ax(3*Nz-3) = -dt**2/dz*(c_sq/dz + 1.0/2.0)
-    Ax(3*Nz-2) = 1.0 + 2.0* (dt/dz)**2* c_sq
+    Ax(SM-1) = -dt**2/dz*(c_sq/dz + 1.0/2.0)
+    Ax(SM) = 1.0 + 2.0* (dt/dz)**2* c_sq
     
     
 end subroutine 
