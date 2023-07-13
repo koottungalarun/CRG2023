@@ -63,7 +63,7 @@ subroutine solveFVM(Con, Prim, Prim_Bar, res)
       call matrix_solve(Con1, Con, Prim_Bar)
       
       call fill_ghost(Con)
-      call fill_ghost(Con1)
+      
      ! if (it == 2) then
      !    call saveprim(time, Con)
      !    stop
@@ -75,6 +75,7 @@ subroutine solveFVM(Con, Prim, Prim_Bar, res)
       
       call update_Q3(Con1, Con,Prim_Bar)
        
+      call fill_ghost(Con)
       !call update_Q1(Con1, Con)
       Con(2,:, :, :) = Con1(2, :, :,:)
       !call update_Q2(Con1, Con)
@@ -162,7 +163,7 @@ subroutine update_Q3(Con1, Con,Prim_Bar)
               
                Con(4, i,j,k) = Con1(4, i, j, k) - dt/(2.0*dz*Prim_bar(5,i,j,k)) &
                                *(C_Bar(i,j, k+1)**2*Con(5,i,j, k+1)- C_Bar(i,j, k-1)**2*Con(5,i,j, k-1)) &
-                               - dt/(2.0*dz)*(Con(1,i,j, k+1)- Con(1,i,j, k-1))
+                               - dt*Con(1,i,j, k)
                                
            enddo
        enddo
