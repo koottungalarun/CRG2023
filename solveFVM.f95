@@ -63,11 +63,11 @@ subroutine solveFVM(Con, Prim, Prim_Bar, res)
       call matrix_solve(Con1, Con, Prim_Bar)
       
       call fill_ghost(Con)
-
-      if (it == 2) then
-         call saveprim(time, Con)
-         stop
-      endif
+      call fill_ghost(Con1)
+     ! if (it == 2) then
+     !    call saveprim(time, Con)
+     !    stop
+     ! endif
        
       call update_Rho(Con1, Con, Prim_Bar)
        
