@@ -6,6 +6,8 @@ subroutine fill_ghost(con)
 
    integer :: i, j, k, l
 
+   ! change to wall; reverse the sign of normal velocity
+
    do j= 0,Ny+1
      do k = 0, Nz+1
         do l= 1, nvar
