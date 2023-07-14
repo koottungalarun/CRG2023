@@ -34,7 +34,7 @@ subroutine solveFVM(Con, Prim, Prim_Bar, res)
    enddo
   
    call fill_ghost(Con)
-   call saveprim(0.0, Con)
+   call saveprim(0.0, Con, Prim_Bar)
    
    time   = 0.0
    it     = 0
@@ -113,7 +113,7 @@ subroutine solveFVM(Con, Prim, Prim_Bar, res)
       write(*,'(I6,F10.2,5E12.4)')it,time,tmin,tmax,resid
 
       if(mod(it,itsave)==0 .or. it==itmax .or. tostop)then
-         call saveprim(time, Con)
+         call saveprim(time, Con, Prim_Bar)
       endif
      !stop 
    enddo ! time iteration loop

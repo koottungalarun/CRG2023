@@ -1,10 +1,10 @@
-subroutine saveprim(t,Primal)
+subroutine saveprim(t,Primal,Prim_Bar)
    use comvar
    implicit none
 
    real    :: t
-   real    :: Primal(nvar, 0:Nx+1, 0:Ny+1, 0:nz+1)
-  
+   real    :: Primal(nvar, 0:Nx+1, 0:Ny+1, 0:Nz+1)
+   real :: Prim_Bar(nvar,  0:Nx+1, 0:Ny+1, 0:Nz+1)
    integer :: i, j, k
    real    :: x, y, z
    character(len=512) :: filename
@@ -24,7 +24,7 @@ subroutine saveprim(t,Primal)
             y = ymin + (j-1)*dy + 0.5*dy
             z = zmin + (k-1)*dz + 0.5*dz
 
-            write(10,'(7E24.14)') x, y,z, Primal(1,i,j,k), Primal(2,i,j,k), &
+            write(10,'(7E24.14)') x, y,z, Primal(1,i,j,k)+ Prim_Bar(1,i,j,k), Primal(2,i,j,k), &
                               Primal(3,i,j,k), Primal(5,i,j,k)
         enddo
       enddo
