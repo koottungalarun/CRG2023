@@ -56,32 +56,32 @@ subroutine solveFVM(Con, Prim, Prim_Bar, res)
       call predictor(Con1, Prim_Bar, res)
    !   call saveprim(time, Con1)
    !   call saveprim(time, Prim_Bar)
-     
+    Con(:,:,:,:) = Con1(:,:,:,:) 
    !   stop
-      call fill_ghost(Con1)
+   !   call fill_ghost(Con1)
       
-      call matrix_solve(Con1, Con, Prim_Bar)
+   !   call matrix_solve(Con1, Con, Prim_Bar)
       
-      call fill_ghost(Con)
+   !   call fill_ghost(Con)
       
      ! if (it == 2) then
      !    call saveprim(time, Con)
      !    stop
      ! endif
        
-      call update_Rho(Con1, Con, Prim_Bar)
+  !    call update_Rho(Con1, Con, Prim_Bar)
        
-      call fill_ghost(Con)
+  !    call fill_ghost(Con)
       
-      call update_Q3(Con1, Con,Prim_Bar)
+  !    call update_Q3(Con1, Con,Prim_Bar)
        
     !  call fill_ghost(Con)
       !call update_Q1(Con1, Con)
-      Con(2,:, :, :) = Con1(2, :, :,:)
+  !    Con(2,:, :, :) = Con1(2, :, :,:)
       !call update_Q2(Con1, Con)
-      Con(3,:, :, :) = Con1(3, :, :,:)
+  !    Con(3,:, :, :) = Con1(3, :, :,:)
      
-      call fill_ghost(Con)
+  !    call fill_ghost(Con)
       it = it + 1
       
       

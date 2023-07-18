@@ -105,12 +105,15 @@ subroutine max_eig(co ,primb, ix,iy,iz, u)
      real ::  u
      real :: prim(nvar), primb(nvar), co(nvar)
      integer :: ix, iy, iz
+     real ::  c_bar
+     
+     c_bar  = sqrt(gamma*primb(2)/primb(1))  
      
      call cons2prims(co, prim, primb)
      
      u = ix*abs(prim(2)) + iy*abs(prim(3)) + iz*abs(prim(4))
      
-     u = 2.0*u
+     u = u+ c_bar  !2.0*u
      
      return
 
