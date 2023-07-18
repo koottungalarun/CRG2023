@@ -17,7 +17,7 @@ subroutine ini_smooth( co_dash,co_bar)
    
       
 
-   final_time   = 10.0
+   final_time   = 0.01
    
    Theta_Bar    = 300.0
    !Cp           = 1.0
