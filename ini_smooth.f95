@@ -17,7 +17,7 @@ subroutine ini_smooth( co_dash,co_bar)
    
       
 
-   final_time   = 0.01
+   final_time   = 0.1
    
    Theta_Bar    = 300.0
    !Cp           = 1.0
@@ -51,6 +51,7 @@ subroutine ini_smooth( co_dash,co_bar)
    co_dash(4, :, :, :) = 0.0
    
      ! Velocity is zero 
+   co_bar(2, :, :, :) = 0.0
    co_bar(3, :, :, :) = 0.0
    co_bar(4, :, :, :) = 0.0
    
@@ -70,8 +71,6 @@ subroutine ini_smooth( co_dash,co_bar)
              x = xmin + (i-1)*dx + 0.5*dx
              y = ymin + (j-1)*dy + 0.5*dy
              z = zmin + (k-1)*dz + 0.5*dz
-             
-             co_bar(2, i, j, k) = P0/(Theta_Bar*R0)*(1.0 - (gamma - 1.0)/gamma*z*g/(R0*Theta_Bar))**(gamma/(gamma-1.0))
              
              co_bar(1, i, j, k) = P0/(Theta_Bar*R0)*(1.0 - (gamma - 1.0)/gamma*z*g/(R0*Theta_Bar))**(1.0/(gamma-1.0))
              

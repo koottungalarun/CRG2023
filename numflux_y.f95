@@ -26,10 +26,15 @@ subroutine numflux_y(ConL, ConR, PrimL, PrimR, lam, flux)
     implicit none
     
     real :: co(nvar), prim(nvar), primb(nvar),flux(nvar)
-    real :: p_dash, c_bar
+    real :: p_dash, temp0, temp1
     
-    c_bar  = sqrt(gamma*primb(2)/primb(1))  
-    p_dash = (c_bar**2/primb(5))*co(5)
+    call cons2prims(co, prim, primb)
+    
+    temp0  = (co(1) + primb(1))*(prim(5) + primb(5))
+    temp0  = temp0**gamma
+    temp1  = primb(1)*primb(5)
+    temp1  = temp1**gamma  
+    p_dash = P0*(R0/P0)**gamma*(temp0-temp1)
     
     call cons2prims(co, prim, primb)
     flux(1) = co(3)

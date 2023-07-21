@@ -24,12 +24,16 @@ subroutine numflux_z(ConL, ConR, PrimL, PrimR, lam, flux)
     
     real :: co(nvar), primb(nvar), flux(nvar)
     real :: prim(nvar)
-    real :: p_dash, c_bar
-    
-    c_bar  = sqrt(gamma*primb(2)/primb(1))   !For full system 
-    p_dash = (c_bar**2/primb(5))*co(5)       ! continue
+    real :: p_dash, temp0, temp1
     
     call cons2prims(co, prim, primb)
+    
+    temp0  = (co(1) + primb(1))*(prim(5) + primb(5))
+    temp0  = temp0**gamma
+    temp1  = primb(1)*primb(5)
+    temp1  = temp1**gamma  
+    p_dash = P0*(R0/P0)**gamma*(temp0-temp1)
+    
     flux(1) = 0.0 + co(4)
     flux(2) = co(4)*prim(2) 
     flux(3) = co(4)*prim(3) 
