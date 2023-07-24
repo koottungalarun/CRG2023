@@ -1,7 +1,7 @@
 module comvar
    implicit none
 
-   integer :: nx, ny, nz
+   integer :: nx, ny, nz, a
    real    :: xmin, xmax, ymin, ymax, zmin, zmax
    real    :: dx, dy, dz,  dt, dtp
    integer :: itmax

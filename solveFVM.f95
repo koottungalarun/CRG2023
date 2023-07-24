@@ -81,7 +81,7 @@ subroutine solveFVM(Con, Prim, Prim_Bar, res)
       !call update_Q2(Con1, Con)
   !    Con(3,:, :, :) = Con1(3, :, :,:)
      
-      call fill_ghost(Con1)
+      call fill_ghost(Con)
       it = it + 1
       
      

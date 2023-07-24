@@ -1,8 +1,8 @@
 subroutine timestep(Con,Prim_Bar)
    use comvar
    implicit none
-   real :: Prim_Bar(nvar, 0:nx+1, 0:Ny +1, 0:Nz+ 1)
-   real :: Con(nvar, 0:nx+1, 0:Ny +1, 0:Nz+ 1)
+   real :: Prim_Bar(nvar, 0:Nx+1, 0:Ny +1, 0:Nz+ 1)
+   real :: Con(nvar, 0:Nx+1, 0:Ny +1, 0:Nz+ 1)
    integer :: i, j, k
    real :: speed, eig, eig0(3)
    speed=0.0

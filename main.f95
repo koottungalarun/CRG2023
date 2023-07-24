@@ -5,10 +5,10 @@ program main
    implicit none
 
    real, dimension(:), allocatable :: Con, Prim, Prim_Bar, res
-
-   Nx = 50
-   Ny = 50
-   Nz = 25
+   a =1
+   Nx = 50*a
+   Ny = 50*a
+   Nz = 50*a
    
   
    itmax = 50000

@@ -90,7 +90,7 @@ subroutine compute_residual(Con, Prim_Bar, res)
             call numflux_z( ConL, ConR, PrimL, PrimR, lam, zflux)
          
             call source(ConL, Q)
-            res(:,i, j,   k) = res(:,  i, j, k) + dx*dy*zflux + dx*dy*dz*Q
+            res(:,i, j,   k) = res(:,  i, j, k) + dx*dy*zflux + (dx*dy*dz)*Q
             res(:,i, j, k+1) = res(:,i, j, k+1) - dx*dy*zflux
          enddo
        enddo
@@ -117,13 +117,14 @@ subroutine max_eig(co ,primb, ix,iy,iz, u)
      real ::  u
      real :: prim(nvar), primb(nvar), co(nvar)
      integer :: ix, iy, iz
-     real ::  c, Pressure, Rho
+     real ::  c, Pressure, Rho, Theta
     
     call cons2prims(co, prim, primb)
     
     Rho       = (prim(1)+primb(1))
+    Theta     = (prim(5)+primb(5))
     
-    Pressure  = P0*(R0*Rho/P0)**gamma
+    Pressure  = P0*(R0*Rho*Theta/P0)**gamma
   
 
     
