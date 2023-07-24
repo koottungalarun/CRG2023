@@ -24,7 +24,7 @@ subroutine saveprim(t,Primal,Prim_Bar)
             y = ymin + (j-1)*dy + 0.5*dy
             z = zmin + (k-1)*dz + 0.5*dz
 
-            write(10,'(7E24.14)') x, y,z, Primal(1,i,j,k)+ Prim_Bar(1,i,j,k), Primal(2,i,j,k), &
+            write(10,'(7E24.14)') x, y,z, Primal(1,i,j,k)+ Prim_Bar(1,i,j,k), Primal(1,i,j,k), &
                               Primal(3,i,j,k), Primal(5,i,j,k)
         enddo
       enddo

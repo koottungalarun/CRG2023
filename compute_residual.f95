@@ -9,7 +9,7 @@ subroutine compute_residual(Con, Prim_Bar, res)
    real ::      res(nvar,  0:Nx+1, 0:Ny+1, 0:Nz+1)
    real :: xflux, yflux, zflux
    real :: PrimL(nvar), PrimR(nvar), ConL(nvar), ConR(nvar)
-   real :: lam, lam1
+   real :: lam, lam1, Q(nvar)
    integer :: i, j, k
    
    res = 0.0
@@ -89,8 +89,8 @@ subroutine compute_residual(Con, Prim_Bar, res)
             ConR  = Con(:, i, j, k+1)
             call numflux_z( ConL, ConR, PrimL, PrimR, lam, zflux)
          
-        
-            res(:,i, j,   k) = res(:,  i, j, k) + dx*dy*zflux
+            call source(ConL, Q)
+            res(:,i, j,   k) = res(:,  i, j, k) + dx*dy*zflux + dx*dy*dz*Q
             res(:,i, j, k+1) = res(:,i, j, k+1) - dx*dy*zflux
          enddo
        enddo
@@ -99,27 +99,41 @@ subroutine compute_residual(Con, Prim_Bar, res)
 end subroutine compute_residual
 
 
+subroutine source(co, Q)
+    use comvar
+    implicit none
+    real :: co(nvar), Q(nvar)
+    
+    Q(1:3) = 0.0
+    Q(4)   = -co(1)
+    Q(5)   = 0.0
+    return
+end subroutine source
+    
+
 subroutine max_eig(co ,primb, ix,iy,iz, u)
      use comvar
      implicit none
      real ::  u
      real :: prim(nvar), primb(nvar), co(nvar)
      integer :: ix, iy, iz
-     real ::  c_bar, temp0, temp1
+     real ::  c, Pressure, Rho
     
     call cons2prims(co, prim, primb)
     
-    temp0  = P0*(R0*(prim(1)+primb(1))/P0)**gamma
-  
-    temp1  = (prim(1)+primb(1))
+    Rho       = (prim(1)+primb(1))
     
-    c_bar  = sqrt(gamma*temp0/temp1)  
+    Pressure  = P0*(R0*Rho/P0)**gamma
+  
+
+    
+    c  = sqrt(gamma*Pressure/Rho)  
      
     
      
      u = ix*abs(prim(2)) + iy*abs(prim(3)) + iz*abs(prim(4))
      
-     u = u+ c_bar  !2.0*u
+     u = u  + c
      
      return
 

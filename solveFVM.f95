@@ -53,10 +53,10 @@ subroutine solveFVM(Con, Prim, Prim_Bar, res)
       Con1(:,:,:,:) = Con(:,:,:,:)
       !call saveprim(time, Con1)
       
-      call predictor(Con1, Prim_Bar, res)
+      call predictor(Con, Con1, Prim_Bar, res)
    !   call saveprim(time, Con1)
    !   call saveprim(time, Prim_Bar)
-    Con(:,:,:,:) = Con1(:,:,:,:) 
+    
    !   stop
    !   call fill_ghost(Con1)
       
@@ -81,19 +81,10 @@ subroutine solveFVM(Con, Prim, Prim_Bar, res)
       !call update_Q2(Con1, Con)
   !    Con(3,:, :, :) = Con1(3, :, :,:)
      
-  !    call fill_ghost(Con)
+      call fill_ghost(Con1)
       it = it + 1
       
-      
-      do i = 1, Nx
-         do j = 1, Ny
-            do k = 1, Nz
-              
-             call cons2prims(Con(:,i,j,k), Prim(:,i,j,k) ,Prim_Bar(:,i,j,k))
-             
-            enddo
-         enddo
-      enddo
+     
       call sol_residual(Con1, Con, resid)
       ! Compute min/max temperature
       tmin = +1.0e20

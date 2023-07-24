@@ -1,4 +1,4 @@
-subroutine predictor(co, Prim_Bar, res)
+subroutine predictor(co,co1, Prim_Bar, res)
    use comvar
    implicit none
 

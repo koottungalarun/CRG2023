@@ -37,7 +37,7 @@ subroutine numflux_z(ConL, ConR, PrimL, PrimR, lam, flux)
     flux(1) = 0.0 + co(4)
     flux(2) = co(4)*prim(2) 
     flux(3) = co(4)*prim(3) 
-    flux(4) = co(4)*prim(4) + p_dash + prim(1)
+    flux(4) = co(4)*prim(4) + p_dash 
     flux(5) = (prim(5)+ primb(5))*co(4)
   
  end subroutine flux_z
