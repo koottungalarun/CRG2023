@@ -2,7 +2,7 @@
 #FFLAGS = -O3 -diag-disable vec -r8 -free -Tf
 
 FC = gfortran
-FFLAGS = -O3 -fdefault-real-8 -g -Wall -fcheck=all
+FFLAGS = -O3 -fdefault-real-8  -g -Wall -fcheck=all
 LDLIBS  = -L/usr/lib -lumfpack -lamd -lm -lblas -llapack -lcholmod -lcolamd
 LDLIBS  += -L/usr/local/lib
 

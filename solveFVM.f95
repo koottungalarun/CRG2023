@@ -1,4 +1,4 @@
-subroutine solveFVM(Con, Prim, Prim_Bar, res)
+subroutine solveFVM(Con,Con1, Prim, Prim_Bar, res)
 
    use comvar
 
@@ -51,9 +51,10 @@ subroutine solveFVM(Con, Prim, Prim_Bar, res)
       endif
       
       Con1(:,:,:,:) = Con(:,:,:,:)
+      
       !call saveprim(time, Con1)
       
-      call predictor(Con, Con1, Prim_Bar, res)
+      call predictor(Con,Con1, Prim_Bar, res)
    !   call saveprim(time, Con1)
    !   call saveprim(time, Prim_Bar)
     

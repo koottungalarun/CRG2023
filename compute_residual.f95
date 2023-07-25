@@ -1,11 +1,11 @@
-subroutine compute_residual(Con, Prim_Bar, res)
+subroutine compute_residual(co, Prim_Bar, res)
 
    use comvar
 
    implicit none
 
    real :: Prim_Bar(nvar,  0:Nx+1, 0:Ny+1, 0:Nz+1)
-   real ::      Con(nvar,  0:Nx+1, 0:Ny+1, 0:Nz+1)
+   real ::      co(nvar,  0:Nx+1, 0:Ny+1, 0:Nz+1)
    real ::      res(nvar,  0:Nx+1, 0:Ny+1, 0:Nz+1)
    real :: xflux, yflux, zflux
    real :: PrimL(nvar), PrimR(nvar), ConL(nvar), ConR(nvar)
@@ -19,7 +19,7 @@ subroutine compute_residual(Con, Prim_Bar, res)
    do i =1, Nx
        do j = 1, Ny
           do k = 1, Nz
-             call max_eig(Con(:,i,j,k),Prim_Bar(:, i, j, k), 1, 0, 0, lam1)
+             call max_eig(co(:,i,j,k),Prim_Bar(:, i, j, k), 1, 0, 0, lam1)
              lam = max(lam, abs(lam1))
           enddo
        enddo
@@ -31,8 +31,8 @@ subroutine compute_residual(Con, Prim_Bar, res)
             PrimL = Prim_Bar(:,   i, j, k)
             PrimR = Prim_Bar(:, i+1, j, k)
           
-            ConL  = Con(:,   i, j, k)
-            ConR  = Con(:, i+1, j, k)
+            ConL  = co(:,   i, j, k)
+            ConR  = co(:, i+1, j, k)
            ! do l = 1, nvar
            ! write(*,*) PrimL(l), PrimR(l), ConL(l), ConR(l)
             !enddo
@@ -45,11 +45,12 @@ subroutine compute_residual(Con, Prim_Bar, res)
          enddo
        enddo
    enddo
-   
+      lam = 0.0
+   lam1= 0.0 
     do i =1, Nx
        do j = 1, Ny
           do k = 1, Nz
-             call max_eig(Con(:,i,j,k),Prim_Bar(:, i, j, k), 0, 1, 0, lam1)
+             call max_eig(co(:,i,j,k),Prim_Bar(:, i, j, k), 0, 1, 0, lam1)
              lam = max(lam, abs(lam1))
           enddo
        enddo
@@ -60,8 +61,8 @@ subroutine compute_residual(Con, Prim_Bar, res)
          do k = 1, Nz          
             PrimL = Prim_Bar(:, i, j,  k)
             PrimR = Prim_Bar(:, i, j+1,k)
-            ConL  = Con(:,   i, j, k)
-            ConR  = Con(:, i, j+1, k)
+            ConL  = co(:,   i, j, k)
+            ConR  = co(:, i, j+1, k)
             call numflux_y( ConL, ConR, PrimL, PrimR, lam, yflux)
          
         
@@ -70,11 +71,12 @@ subroutine compute_residual(Con, Prim_Bar, res)
          enddo
        enddo
    enddo
-   
+      lam = 0.0
+   lam1= 0.0 
     do i =1, Nx
        do j = 1, Ny
           do k = 1, Nz
-             call max_eig(Con(:,i,j,k),Prim_Bar(:, i, j, k), 0, 0, 1, lam1)
+             call max_eig(co(:,i,j,k),Prim_Bar(:, i, j, k), 0, 0, 1, lam1)
              lam = max(lam, abs(lam1))
           enddo
        enddo
@@ -85,12 +87,13 @@ subroutine compute_residual(Con, Prim_Bar, res)
          do j = 1, Ny          
             PrimL = Prim_Bar(:, i, j,  k)
             PrimR = Prim_Bar(:, i, j,k+1)
-            ConL  = Con(:,   i, j, k)
-            ConR  = Con(:, i, j, k+1)
+            ConL  = co(:,   i, j, k)
+            ConR  = co(:, i, j, k+1)
+            
             call numflux_z( ConL, ConR, PrimL, PrimR, lam, zflux)
          
             call source(ConL, Q)
-            res(:,i, j,   k) = res(:,  i, j, k) + dx*dy*zflux + (dx*dy*dz)*Q
+            res(:,i, j,   k) = res(:,  i, j, k) + dx*dy*zflux + dx*dy*dz*Q
             res(:,i, j, k+1) = res(:,i, j, k+1) - dx*dy*zflux
          enddo
        enddo
@@ -126,7 +129,9 @@ subroutine max_eig(co ,primb, ix,iy,iz, u)
     
     Pressure  = P0*(R0*Rho*Theta/P0)**gamma
   
-
+    if (Pressure <10-16) then
+      write(*,*) 'rakesh'
+    endif
     
     c  = sqrt(gamma*Pressure/Rho)  
      
