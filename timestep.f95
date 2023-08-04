@@ -29,7 +29,7 @@ subroutine timestep(Con,Prim_Bar)
 
    dt = cfl*dt
 
-   write(*,*)'Time step =', dt
+   !write(*,*)'Time step =', dt
 
 
 end subroutine timestep

@@ -129,9 +129,7 @@ subroutine max_eig(co ,primb, ix,iy,iz, u)
     
     Pressure  = P0*(R0*Rho*Theta/P0)**gamma
   
-    if (Pressure <10-16) then
-      write(*,*) 'rakesh'
-    endif
+   
     
     c  = sqrt(gamma*Pressure/Rho)  
      

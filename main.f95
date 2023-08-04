@@ -12,13 +12,13 @@ program main
    
   
    itmax = 50000
-   itsave= 10
+   itsave= 100
 
 
 
    max_pit     = 10
    RESTOL      = 1.0e-6
-   cfl         = 0.05
+   cfl         = 0.1
 
 
    
