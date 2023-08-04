@@ -17,7 +17,7 @@ subroutine ini_steady( co_dash,co_bar)
    
       
 
-   final_time   = 10
+   final_time   = 0.1
    
    Theta_Bar    = 300.0
    !Cp           = 1.0
