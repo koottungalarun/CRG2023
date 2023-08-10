@@ -14,7 +14,7 @@ subroutine saveprim(t,Primal,Prim_Bar)
 
    open(10,file=trim(filename))
    write(10,*)'TITLE = "vortex flow"'
-   write(10,*)'VARIABLES = "x", "y", "z", "Density", "Velx", "Vely", "Pressure"'
+   write(10,*)'VARIABLES = "x", "y", "z", "Rho", "Rhodash", "Velx", "Thetadash"'
    write(10,*)'ZONE STRANDID=1, SOLUTIONTIME=',t,', I=',Nx,', J=',Ny, 'K=', Nz &
               ,' DATAPACKING=POINT'
   do k = 1, Nz
@@ -25,7 +25,7 @@ subroutine saveprim(t,Primal,Prim_Bar)
             z = zmin + (k-1)*dz + 0.5*dz
 
             write(10,'(7E24.14)') x, y,z, Primal(1,i,j,k)+ Prim_Bar(1,i,j,k), Primal(1,i,j,k), &
-                              Primal(3,i,j,k), Primal(5,i,j,k)+ Prim_Bar(5,i,j,k)
+                              Primal(2,i,j,k), Primal(5,i,j,k)
         enddo
       enddo
    enddo

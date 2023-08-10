@@ -108,7 +108,7 @@ subroutine source(co, Q)
     real :: co(nvar), Q(nvar)
     
     Q(1:3) = 0.0
-    Q(4)   = -co(1)
+    Q(4)   = -co(1)*g
     Q(5)   = 0.0
     return
 end subroutine source

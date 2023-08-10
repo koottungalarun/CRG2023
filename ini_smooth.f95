@@ -17,7 +17,7 @@ subroutine ini_smooth( co_dash,co_bar)
    
       
 
-   final_time   = 1.0
+   final_time   = 10.0
    
    Theta_Bar    = 300.0
    !Cp           = 1.0
@@ -30,14 +30,14 @@ subroutine ini_smooth( co_dash,co_bar)
 
   
 
-   xmin = -10.0
-   xmax =  10.0
+   xmin = -20.0
+   xmax =  20.0
    
-   ymin = -10.0
-   ymax =  10.0
+   ymin = -20.0
+   ymax =  20.0
    
-   zmin = 0.0
-   zmax = 10.0
+   zmin = -20.0
+   zmax = 20.0
    
    
   

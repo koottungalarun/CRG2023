@@ -6,7 +6,7 @@ subroutine prim2cons(Prim, Con, Prim_Bar)
    real :: Con(nvar)
    real :: Prim_Bar(nvar), Rho
 
-   Rho    = (Con(1) + Prim_Bar(1))             ! Density
+   Rho    = (Prim(1) + Prim_Bar(1))             ! Density
    Con(1) = Prim(1)                            ! Desity_dash
    Con(2) = Prim(2)*Rho                        ! Rho*vx
    Con(3) = Prim(3)*Rho                        !Rho*vy
@@ -14,5 +14,6 @@ subroutine prim2cons(Prim, Con, Prim_Bar)
    
    ! Computation of (Rho*theta)_dash  
    Con(5) = Rho*Prim(5) + Prim(1)*Prim_Bar(5)
+   !Con(5) = Prim_Bar(1)*Prim(5) + Prim(1)*Prim_Bar(5) + Prim_Bar(1)*Prim_Bar(5)
  
 end subroutine prim2cons

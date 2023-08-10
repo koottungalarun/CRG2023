@@ -28,7 +28,7 @@ subroutine numflux_z(ConL, ConR, PrimL, PrimR, lam, flux)
     
     call cons2prims(co, prim, primb)
     
-    temp0  = (co(1) + primb(1))*(prim(5) + primb(5))
+    temp0  = co(5) + primb(1)*primb(5)
     temp0  = temp0**gamma
     temp1  = primb(1)*primb(5)
     temp1  = temp1**gamma  
