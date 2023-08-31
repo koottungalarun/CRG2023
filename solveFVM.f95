@@ -13,7 +13,7 @@ subroutine solveFVM(Con,Con1, Prim, Prim_Bar, res)
 
    integer :: it, i, j, k, l
    real    :: time, tmin, tmax
-   real    :: resid
+   real    :: resid, lambda
    logical :: tostop
 
 
@@ -23,9 +23,9 @@ subroutine solveFVM(Con,Con1, Prim, Prim_Bar, res)
    call fill_ghost(Prim_Bar)
    ! converting primitive var to conservative var
    
-   do i = 1, Nx
-        do j = 1, Ny
-           do k = 1, Nz
+   do i = 0, Nx+1
+        do j = 0, Ny+1
+           do k = 0, Nz+1
               
              call prim2cons(Prim(:,i,j,k) , Con(:,i,j,k),Prim_Bar(:,i,j,k))
              
@@ -33,7 +33,7 @@ subroutine solveFVM(Con,Con1, Prim, Prim_Bar, res)
         enddo
    enddo
   
-   call fill_ghost(Con)
+   
    call saveprim(0.0, Prim, Prim_Bar)
    
    time   = 0.0
@@ -54,7 +54,24 @@ subroutine solveFVM(Con,Con1, Prim, Prim_Bar, res)
       
       !call saveprim(time, Con1)
       
-      call predictor(Con,Con1, Prim_Bar, res)
+      !call predictor(Con,Con1, Prim_Bar, res)
+      call compute_residual(Con, Prim_Bar, res)
+      lambda = dt/(dx*dy*dz)
+   !call saveprim(0.0, res)
+   
+  
+   !Con(1:nvar,1:Nx,1:Ny,1:Nz) = Con1(1:nvar,1:Nx, 1:Ny,1:Nz)- lambda*res(1:nvar,1:Nx,1:Ny,1:Nz)
+   do i = 1, Nx
+      do j= 1, Ny
+         do k= 1, Nz
+             do l =1, nvar
+              
+              Con(l,i,j,k) = Con1(l,i, j,k)-lambda*res(l,i,j,k)
+              
+             enddo
+         enddo
+      enddo
+   enddo
    !   call saveprim(time, Con1)
    !   call saveprim(time, Prim_Bar)
     
@@ -82,7 +99,7 @@ subroutine solveFVM(Con,Con1, Prim, Prim_Bar, res)
       !call update_Q2(Con1, Con)
   !    Con(3,:, :, :) = Con1(3, :, :,:)
      
-      call fill_ghost(Con)
+     ! call fill_ghost(Con)
       it = it + 1
       
      
@@ -114,6 +131,15 @@ subroutine solveFVM(Con,Con1, Prim, Prim_Bar, res)
    enddo
   
    call fill_ghost(Prim)
+    do i = 0, Nx+1
+        do j = 0, Ny+1
+           do k = 0, Nz+1
+              
+             call prim2cons(Prim(:,i,j,k) , Con(:,i,j,k),Prim_Bar(:,i,j,k))
+             
+           enddo
+        enddo
+   enddo
       write(*,'(I6,F10.2,5E12.4)')it,time,tmin,tmax,resid
 
       if(mod(it,itsave)==0 .or. it==itmax .or. tostop)then

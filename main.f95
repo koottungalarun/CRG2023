@@ -8,11 +8,11 @@ program main
    a =1
    Nx = 50*a
    Ny = 50*a
-   Nz = 25*a
+   Nz = 50*a
    
   
    itmax = 50000
-   itsave= 100
+   itsave= 50
 
 
 
