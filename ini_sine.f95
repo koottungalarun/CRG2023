@@ -4,9 +4,9 @@ subroutine ini_sine( co_dash,co_bar)
 
    real    :: co_bar(nvar,0:Nx+1, 0:Ny+1, 0:Nz+1)
    real    :: co_dash(nvar,0:Nx+1, 0:Ny+1, 0:Nz+1)
-   real    :: Rho(1:Nx, 1:Ny, 1:Nz), TDC
+   !real    :: Rho(1:Nx, 1:Ny, 1:Nz), TDC
    integer :: i, j, k
-   real    :: x, y, z, r, r_c
+   real    :: x, y, z, r_c
    
    ! Here co(1,:,:,:) = Density
    !    co(2:4,:,:,:) = Velocity 
@@ -17,7 +17,7 @@ subroutine ini_sine( co_dash,co_bar)
    
       
 
-   final_time   = 1.0
+   final_time   = 0.1
    
    Theta_Bar    = 0.0
    !Cp           = 1.0
